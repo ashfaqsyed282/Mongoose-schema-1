@@ -7,13 +7,13 @@ const app = express();
 const port = 3010;
 
 // MongoDB Connection
-mongoose.connect('mongodb://127.0.0.1:27017/blogDB')
+mongoose.connect('mongodb://127.0.0.1:27017/user_management')
   .then(async () => {
     console.log('Connected to MongoDB');
 
-    // ✅ Delete the first user (ashfaq) automatically on startup
+    // ✅ Delete the first user (Kishore) automatically on startup
     const firstUser = await User.findOne().sort({ createdAt: 1 }); // Get the oldest user
-    if (firstUser && firstUser.username !== 'ashfaq123') {
+    if (firstUser && firstUser.username !== 'khalid123') {
       await User.findByIdAndDelete(firstUser._id);
       console.log(`Deleted user: ${firstUser.username}`);
     }
@@ -28,18 +28,18 @@ app.get('/', (req, res) => {
   res.sendFile(resolve(__dirname, 'pages/index.html'));
 });
 
-// ✅ Add a Sample User (Only if  doesn't exist)
+// ✅ Add a Sample User (Only if Khalid doesn't exist)
 app.get('/add-user', async (req, res) => {
   try {
-    const existingUser = await User.findOne({ username: 'ashfaq123' });
+    const existingUser = await User.findOne({ username: 'khalid123' });
     if (existingUser) return res.status(400).send('User already exists');
 
     const newUser = new User({
-      username: 'ashfaq123',
-      email: 'ashfaq@example.com',
+      username: 'Dinesh123',
+      email: 'Dinesh@example.com',
       password: 'securepassword',
       roles: ['admin'],
-      profile: { firstName: 'ashfaq', lastName: 'a', age: 25 }
+      profile: { firstName: 'Dinesh', lastName: 'D', age: 25 }
     });
 
     await newUser.save();
